@@ -1,5 +1,7 @@
 #include "TBitField.h"
 
+#include <stdexcept>
+
 TBitField::TBitField()
 {
 	size = 0;
@@ -74,20 +76,29 @@ TBitField TBitField::operator~() const
 	}
 	return tmp;
 }
+unsigned int TBitField::GetMemMask(const int n) const // битовая маска для бита n
+{
+	if (n < 0)
+		throw std::out_of_range("Input error: invalide value of bitfield in GetMemIndex");
+
+	const int i = n % (sizeof(unsigned int) * 8);
+	const unsigned int mask = 1 << i;
+	return mask;
+}
 
 void TBitField::add(int num)
 {
-	int k = getBit(num);
-	int i = getIndex(num);
-	if(i < size)
-		mem[i] = mem[i] | (1 << k);
+	const int k = GetMemMask(num);
+	const int i = getIndex(num);
+	if (i < size)
+		mem[i] |= k;
 }
 
 void TBitField::del(int num)
 {
-	const int k = getBit(num);
+	const int k = GetMemMask(num);
 	const int i = getIndex(num);
-	mem[i] = mem[i] & (~(1 << k));
+	mem[i] &= ~k;
 }
 
 void TBitField::resize(int _size)
@@ -126,14 +137,14 @@ std::string TBitField::TBitToStr(int sizeU) const
 {
 	std::string str;
 	int k = 0;
-	for(size_t i = 0; i < size; ++i)
+	for (size_t i = 0; i < size; ++i)
 	{
-		for(size_t j = 0; j < sizeof(unsigned int) * 8; ++j)
+		for (size_t j = 0; j < sizeof(unsigned int) * 8; ++j)
 		{
-			if((mem[i] & (1 << j)) > 0)
+			if ((mem[i] & (1 << j)) > 0)
 			{
-				k = i * sizeof(unsigned int) * 8 + j + 1;
-				if(k <= sizeU)
+				k = i * sizeof(unsigned int) * 8 + j;
+				if (k <= sizeU)
 				{
 					str += std::to_string(k) + " ";
 				}
@@ -145,10 +156,12 @@ std::string TBitField::TBitToStr(int sizeU) const
 
 int TBitField::getBit(long long int num) const
 {
-	return (num - 1) % (8 * sizeof(unsigned int));
+	const unsigned int     i = getIndex(num)
+						 , k = GetMemMask(num);
+	return (mem[i] & k);
 }
 
 int TBitField::getIndex(long long int num) const
 {
-	return (num - 1) / (8 * sizeof(unsigned int));
+	return (num) / (8 * sizeof(unsigned int));
 }

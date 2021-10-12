@@ -13,7 +13,7 @@ public:
 	TBitField operator+(const TBitField&) const;
 	TBitField operator*(TBitField) const;
 	TBitField operator~() const;
-
+	unsigned int GetMemMask(const int n) const;
 	void add(int);
 	void del(int);
 	void resize(int);

@@ -15,7 +15,7 @@ TSet& TSet::operator=(TSet copy)
 	return *this;
 }
 
-TSet TSet::operator+(TSet right)
+TSet TSet::operator|(TSet right)
 {
 	TSet tmp(*this);
 	if (size == right.size)
@@ -25,7 +25,7 @@ TSet TSet::operator+(TSet right)
 	return tmp;;
 }
 
-TSet TSet::operator*(TSet right)
+TSet TSet::operator&(TSet right)
 {
 	TSet tmp(*this);
 	if (size == right.size)
@@ -44,13 +44,18 @@ TSet TSet::operator~()
 
 void TSet::add(int num)
 {
-	if(num > 0 && num < size)
+	if(num > 0 && num < size + 1)
 		tb.add(num);
 }
 
 void TSet::del(int num)
 {
 	tb.del(num);
+}
+
+int TSet::getPower() const
+{
+	return size;
 }
 
 std::string TSet::ToString()

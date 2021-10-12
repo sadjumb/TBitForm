@@ -11,12 +11,13 @@ public:
 	~TSet() = default;
 
 	TSet& operator=(TSet);
-	TSet operator+(TSet);
-	TSet operator*(TSet);
+	TSet operator|(TSet);
+	TSet operator&(TSet);
 	TSet operator~();
 
 	void add(int);
 	void del(int);
+	int getPower() const;
 	std::string ToString();
 
 
