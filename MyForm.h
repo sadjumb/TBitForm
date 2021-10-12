@@ -295,47 +295,47 @@ namespace TBitForm
 
 		private: System::Void enter_TextBox(System::Windows::Forms::TextBox^ box, TSet*& set)
 		{
-			int len = box->Text->Length;
-			std::string* str = new std::string[len];
-			int k = 0;
-			str[k] = "";
-			for (int i = 0; i < len; ++i)
+			if(set != nullptr)
+			{
+				const int power = set->getPower();
+				delete set;
+				set = new TSet(power);
+			}
+			
+			const int len = box->Text->Length;
+			std::vector<std::string> vecStr(1);
+			
+			for (int i = 0, k = 0; i < len; ++i)
 			{
 				if (box->Text[i] != ' ')
 				{
-					str[k] += box->Text[i];
+					vecStr[k] += box->Text[i];
 				}
 				else
 				{
 					++k;
-					str[k] = "";
+					vecStr.push_back("");
 				}
 			}
-
-			const int power = set->getPower();
-			delete set;
-			set = new TSet(power);
-			for (int i = 0, value; i <= k; ++i)
+			for (int i = 0, value; i < vecStr.size(); ++i)
 			{
-				value = std::atoi(str[i].c_str());
+				value = std::atoi(vecStr[i].c_str());
 				set->add(value);
 			}
-
-			std::string res = set->ToString();
-
+			const std::string res = set->ToString();
 			box->Text = gcnew System::String(res.c_str());
-			delete[] str;
 		}
 	
 		private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) 
 		{
+			const int len = System::Convert::ToInt32(textBox1->Text);
+
 			if (setA != nullptr && setB != nullptr && setC != nullptr)
 			{
 				delete setA;
 				delete setB;
 				delete setC;
 			}
-			const int len = System::Convert::ToInt32(textBox1->Text);
 			setA = new TSet(len);
 			setB = new TSet(len);
 			setC = new TSet(len);
@@ -360,7 +360,6 @@ namespace TBitForm
 			{
 				*setC = *setA & *setB;
 			}
-
 			const std::string res = setC->ToString();
 			textBox4->Text = gcnew System::String(res.c_str());
 		}
@@ -377,7 +376,6 @@ namespace TBitForm
 			{
 				*setC = *setA | *setB;
 			}
-
 			const std::string res = setC->ToString();
 			textBox4->Text = gcnew System::String(res.c_str());
 		}
@@ -387,12 +385,10 @@ namespace TBitForm
 		const int powerC = setC->getPower();
 		delete setC;
 		setC = new TSet(powerC);
-
 		if (setA != nullptr)
 		{
 			*setC = ~*setA;
 		}
-
 		const std::string res = setC->ToString();
 		textBox4->Text = gcnew System::String(res.c_str());
 	}
