@@ -292,6 +292,41 @@ namespace TBitForm
 		private: System::Void textBox3_TextChanged(System::Object^ sender, System::EventArgs^ e){}
 		private: System::Void textBox4_TextChanged(System::Object^ sender, System::EventArgs^ e){}
 
+
+		private: System::Void enter_TextBox(System::Windows::Forms::TextBox^ box, TSet*& set)
+		{
+			int len = box->Text->Length;
+			std::string* str = new std::string[len];
+			int k = 0;
+			str[k] = "";
+			for (int i = 0; i < len; ++i)
+			{
+				if (box->Text[i] != ' ')
+				{
+					str[k] += box->Text[i];
+				}
+				else
+				{
+					++k;
+					str[k] = "";
+				}
+			}
+
+			const int power = set->getPower();
+			delete set;
+			set = new TSet(power);
+			for (int i = 0, value; i <= k; ++i)
+			{
+				value = std::atoi(str[i].c_str());
+				set->add(value);
+			}
+
+			std::string res = set->ToString();
+
+			box->Text = gcnew System::String(res.c_str());
+			delete[] str;
+		}
+	
 		private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) 
 		{
 			if (setA != nullptr && setB != nullptr && setC != nullptr)
@@ -308,68 +343,11 @@ namespace TBitForm
 
 		private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e) 
 		{
-			int len = textBox2->Text->Length;
-			std::string* str = new std::string[len];
-			int k = 0;
-			str[k] = "";
-			for (int i = 0; i < len; ++i)
-			{
-				if (textBox2->Text[i] != ' ')
-				{
-					str[k] += textBox2->Text[i];
-				}
-				else
-				{
-					++k;
-					str[k] = "";
-				}
-			}
-			const int powerA = setA->getPower();
-			delete setA;
-			setA = new TSet(powerA);
-			
-			for (int i = 0, value; i <= k; ++i)
-			{
-				value = std::atoi(str[i].c_str());
-				setA->add(value);
-			}
-			std::string res = setA->ToString();
-			System::String^ str1 = gcnew System::String(res.c_str());
-			textBox2->Text = str1;
-			delete[] str;
+			enter_TextBox(textBox2, setA);
 		}
 		private: System::Void button3_Click(System::Object^ sender, System::EventArgs^ e)
 		{
-			int len = textBox3->Text->Length;
-			std::string* str = new std::string[len];
-			int k = 0;
-			str[k] = "";
-			for (int i = 0; i < len; ++i)
-			{
-				if (textBox3->Text[i] != ' ')
-				{
-					str[k] += textBox3->Text[i];
-				}
-				else
-				{
-					++k;
-					str[k] = "";
-				}
-			}
-
-			const int powerB = setB->getPower();
-			delete setB;
-			setB = new TSet(powerB);
-			for (int i = 0, value; i <= k; ++i)
-			{
-				value = std::atoi(str[i].c_str());
-				setB->add(value);
-			}
-			
-			std::string res = setB->ToString();
-			//System::String^ str1 = 
-			textBox3->Text = gcnew System::String(res.c_str());
-			delete[] str;
+			enter_TextBox(textBox3, setB);
 		}
 	
 		private: System::Void button4_Click(System::Object^ sender, System::EventArgs^ e)
@@ -382,8 +360,8 @@ namespace TBitForm
 			{
 				*setC = *setA & *setB;
 			}
-			
-			std::string res = setC->ToString();
+
+			const std::string res = setC->ToString();
 			textBox4->Text = gcnew System::String(res.c_str());
 		}
 	
@@ -399,8 +377,8 @@ namespace TBitForm
 			{
 				*setC = *setA | *setB;
 			}
-			
-			std::string res = setC->ToString();
+
+			const std::string res = setC->ToString();
 			textBox4->Text = gcnew System::String(res.c_str());
 		}
 		
@@ -415,7 +393,7 @@ namespace TBitForm
 			*setC = ~*setA;
 		}
 
-		std::string res = setC->ToString();
+		const std::string res = setC->ToString();
 		textBox4->Text = gcnew System::String(res.c_str());
 	}
 };
