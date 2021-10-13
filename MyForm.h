@@ -323,6 +323,8 @@ namespace TBitForm
 				set->add(value);
 			}
 			const std::string res = set->ToString();
+			if(box->Text != nullptr)
+				delete box->Text;
 			box->Text = gcnew System::String(res.c_str());
 		}
 	
