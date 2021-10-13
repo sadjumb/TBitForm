@@ -18,7 +18,7 @@ public:
 	void add(int);
 	void del(int);
 	int getPower() const;
-	std::string ToString();
+	std::string ToString() const;
 
 
 	

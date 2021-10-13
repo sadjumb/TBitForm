@@ -58,7 +58,7 @@ int TSet::getPower() const
 	return size;
 }
 
-std::string TSet::ToString()
+std::string TSet::ToString() const
 {	
 	return tb.TBitToStr(size);
 }
