@@ -10,12 +10,14 @@ TBitField::TBitField()
 
 TBitField::TBitField(int _size)
 {
+	universe = _size;
 	size = _size / (8 * sizeof(int)) + 1;
 	mem = new unsigned int [size] { 0 };
 }
 
 TBitField::TBitField(const TBitField& copy)
 {
+	universe = copy.universe;
 	size = copy.size;
 	mem = new unsigned int[size];
 	for(size_t i = 0; i < size; ++i)
@@ -70,9 +72,13 @@ TBitField TBitField::operator*(TBitField right) const
 TBitField TBitField::operator~() const
 {
 	TBitField tmp(*this);
-	for(size_t i = 0; i < size; ++i)
+	//*tmp.mem = ~*tmp.mem;
+	for(size_t i = 1; i < universe + 1; ++i)
 	{
-		tmp.mem[i] = ~mem[i];
+		if (tmp.getBit(i))
+			tmp.del(i);
+		else
+			tmp.add(i);
 	}
 	return tmp;
 }
@@ -139,7 +145,7 @@ std::string TBitField::TBitToStr(int sizeU) const
 	int k = 0;
 	for (size_t i = 0; i < size; ++i)
 	{
-		for (size_t j = 1; j < sizeof(unsigned int) * 8; ++j)
+		for (size_t j = 0; j < sizeof(unsigned int) * 8; ++j)
 		{
 			if ((mem[i] & (1 << j)) > 0)
 			{

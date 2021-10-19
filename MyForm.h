@@ -127,7 +127,7 @@ namespace TBitForm
 				static_cast<System::Byte>(204)));
 			this->textBox2->Location = System::Drawing::Point(79, 74);
 			this->textBox2->Name = L"textBox2";
-			this->textBox2->Size = System::Drawing::Size(356, 62);
+			this->textBox2->Size = System::Drawing::Size(506, 62);
 			this->textBox2->TabIndex = 5;
 			this->textBox2->TextChanged += gcnew System::EventHandler(this, &MyForm::textBox2_TextChanged);
 			// 
@@ -137,7 +137,7 @@ namespace TBitForm
 				static_cast<System::Byte>(204)));
 			this->textBox3->Location = System::Drawing::Point(79, 250);
 			this->textBox3->Name = L"textBox3";
-			this->textBox3->Size = System::Drawing::Size(356, 62);
+			this->textBox3->Size = System::Drawing::Size(506, 62);
 			this->textBox3->TabIndex = 7;
 			this->textBox3->TextChanged += gcnew System::EventHandler(this, &MyForm::textBox3_TextChanged);
 			// 
@@ -255,13 +255,13 @@ namespace TBitForm
 			// 
 			// labelSetC
 			// 
-			this->labelSetC->AutoEllipsis = true;
 			this->labelSetC->AutoSize = true;
 			this->labelSetC->BackColor = System::Drawing::SystemColors::ButtonHighlight;
 			this->labelSetC->BorderStyle = System::Windows::Forms::BorderStyle::Fixed3D;
 			this->labelSetC->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 26.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
 			this->labelSetC->Location = System::Drawing::Point(79, 378);
+			this->labelSetC->MaximumSize = System::Drawing::Size(800, 0);
 			this->labelSetC->Name = L"labelSetC";
 			this->labelSetC->Size = System::Drawing::Size(2, 41);
 			this->labelSetC->TabIndex = 18;
@@ -270,7 +270,7 @@ namespace TBitForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(923, 511);
+			this->ClientSize = System::Drawing::Size(923, 661);
 			this->Controls->Add(this->labelSetC);
 			this->Controls->Add(this->labelSetB);
 			this->Controls->Add(this->labelSetA);

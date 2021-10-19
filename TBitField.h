@@ -24,6 +24,7 @@ public:
 private:
 	unsigned int* mem;
 	int size;
+	int universe;
 	
 	int getBit(long long int) const;
 	int getIndex(long long int) const;
